@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="index, follow">
+<title>Privacy Policy — YouTube™ Transcript &amp; Subtitle Exporter</title>
+<!--
+  Static, self-contained page: no external resources, scripts, fonts or analytics.
+-->
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1f2328;
+    --muted: #59636e;
+    --border: #d1d9e0;
+    --card: #f6f8fa;
+    --link: #0969da;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #9198a1;
+      --border: #3d444d;
+      --card: #161b22;
+      --link: #4493f8;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 20px 56px; }
+  h1 { font-size: 1.75rem; line-height: 1.3; margin: 0 0 4px; }
+  h2 { font-size: 1.2rem; margin: 2em 0 0.5em; padding-bottom: 0.3em; border-bottom: 1px solid var(--border); }
+  p, ul { margin: 0 0 1em; }
+  ul { padding-left: 1.3em; }
+  li { margin: 0.25em 0; }
+  a { color: var(--link); overflow-wrap: anywhere; }
+  code {
+    font: 0.88em/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.05em 0.35em;
+    overflow-wrap: anywhere;
+  }
+  .meta { color: var(--muted); margin-bottom: 1.5em; }
+  .summary { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; }
+  .summary ul { margin: 0; }
+  .table-wrap { overflow-x: auto; margin: 0 0 1em; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.95em; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 10px; border: 1px solid var(--border); }
+  th { background: var(--card); }
+  footer { margin-top: 3em; color: var(--muted); font-size: 0.9em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Privacy Policy</h1>
+  <p class="meta">YouTube™ Transcript &amp; Subtitle Exporter (Chrome extension)<br>Effective date: November 7, 2026</p>
+
+  <div class="summary">
+    <ul>
+      <li>Transcripts are fetched from YouTube and processed on your device. They are never sent to the developer or any other party.</li>
+      <li>Requests to YouTube are sent without your YouTube/Google cookies.</li>
+      <li>The only data ever sent to the developer is an optional, anonymous "Pro" interest signal and, only if you type it in, your email address.</li>
+      <li>No analytics, no tracking, no ads, no accounts, and no selling of data.</li>
+    </ul>
+  </div>
+
+  <h2>1. What the extension does on your device</h2>
+  <p>When you open the extension popup on a YouTube video (or Short), the extension requests that video's caption data from <code>www.youtube.com</code> and turns it into a file on your device (TXT, SRT, VTT or Markdown) or text on your clipboard. Formatting, paragraph building, previews and word counts all happen locally in your browser.</p>
+  <p>To get the captions, the extension's script on the YouTube tab sends these requests, and only to <code>www.youtube.com</code>:</p>
+  <ul>
+    <li><code>/youtubei/v1/player</code> — the video's list of caption tracks and basic video details (title, channel name, length and description, used for the file name and the Markdown export);</li>
+    <li><code>/api/timedtext</code> — the caption text of the track you chose;</li>
+    <li><code>/youtubei/v1/get_panel</code> — YouTube's transcript panel, used only as a backup when the methods above fail. This request includes the YouTube client version and visitor value that are already present on the YouTube page.</li>
+  </ul>
+  <p>All of these requests are sent <strong>without your cookies</strong>, so they are not tied to your YouTube or Google account. As with any web request, YouTube can see your IP address. Requests are made only after you open the popup (which loads the caption list and a short preview) or click an export or copy button. Nothing is requested in the background, and the in-page "Transcript" button only opens the popup; it makes no requests itself. The extension does not download any audio or video.</p>
+  <p><strong>Optional translation</strong> uses Chrome's built-in on-device Translator (and, in backup mode, Chrome's built-in language detector). The transcript text is not sent to the developer. The first time you translate into a language, Chrome itself may download a language pack.</p>
+
+  <h2>2. "Copy for ChatGPT" and "Copy for Claude"</h2>
+  <p>These buttons copy your prompt, the video title, the video link and the transcript to your clipboard, and then open <code>chatgpt.com</code> or <code>claude.ai</code> in a new tab. The extension sends nothing to those websites. You decide whether to paste the text there; anything you paste is handled under that website's own privacy policy.</p>
+
+  <h2>3. Optional "Pro" interest signal and email</h2>
+  <p>The popup has a "Playlist export (Pro)" button for a feature that is not available yet. Nothing is sent unless you click it. The extension uses the form service <a href="https://web3forms.com/">Web3Forms</a> (<code>api.web3forms.com</code>) to deliver these messages to the developer's inbox:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>When</th><th>Fields sent</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>You click "Playlist export (Pro)"</td>
+          <td>event name (<code>pro_click</code>), extension version, your browser language (for example <code>en-US</code>), and a random ID generated on your device</td>
+        </tr>
+        <tr>
+          <td>You type your email and click "Notify me"</td>
+          <td>event name (<code>waitlist</code>), extension version, browser language, the same random ID, and <strong>the email address you entered</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Each message also carries the form's access key, a fixed subject line and the sender name "Transcript Exporter". The random ID is created only when you first click the Pro button. It is not linked to your Google account, your YouTube activity or any video. No video, transcript or browsing information is included.</p>
+  <p>Each type of message is sent <strong>at most once per installation</strong>: after it has been delivered, the extension remembers that and does not send it again. If delivery fails, it may be tried again the next time you click.</p>
+  <p>Your email is used only to tell you when the feature launches. As with any web request, Web3Forms can see your IP address; the extension does not add it to the message. To have your email deleted, contact the developer (see Contact below).</p>
+
+  <h2>4. Settings stored on your device</h2>
+  <p>The extension remembers your choices only in your browser's local storage. These values are never uploaded. Removing the extension deletes them.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stored item</th><th>Where</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>ytx_inpage_hidden</code></td><td>chrome.storage.local</td><td>Whether you hid the in-page "Transcript" button</td></tr>
+        <tr><td><code>ytx_readable</code></td><td>Extension local storage</td><td>"Readable paragraphs" on/off</td></tr>
+        <tr><td><code>ytx_with_time</code></td><td>Extension local storage</td><td>"Include timestamps" on/off</td></tr>
+        <tr><td><code>ytx_translate</code></td><td>Extension local storage</td><td>Your last "Translate to" language</td></tr>
+        <tr><td><code>ytx_ai_prompt</code></td><td>Extension local storage</td><td>Your custom AI prompt (only if you changed the default)</td></tr>
+        <tr><td><code>ytx_anon_id</code></td><td>Extension local storage</td><td>The random ID described in section 3 (created only after you click the Pro button)</td></tr>
+        <tr><td><code>ytx_pro_click_sent</code>, <code>ytx_waitlist_sent</code></td><td>Extension local storage</td><td>The time each Pro message was delivered, so it is not sent twice</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Your clipboard is written only when you click a copy button. The extension never reads your clipboard.</p>
+
+  <h2>5. What we do not do</h2>
+  <ul>
+    <li>No analytics, telemetry, tracking pixels or advertising.</li>
+    <li>No user accounts or sign-in.</li>
+    <li>We do not collect your browsing history, the videos you watch, or the transcripts you export.</li>
+    <li>We do not sell, rent or share data with third parties, and we do not use it for any purpose unrelated to the extension.</li>
+    <li>No remote code: all of the extension's code is included in the package published on the Chrome Web Store.</li>
+  </ul>
+
+  <h2>6. Children's privacy</h2>
+  <p>The extension is not directed at children under 13, and we do not knowingly collect personal information from children. If you believe a child has sent us an email address through the Pro form, please contact us and we will delete it.</p>
+
+  <h2>7. Changes to this policy</h2>
+  <p>If the extension's data practices change, this page will be updated and its effective date changed before the new version is published.</p>
+
+  <h2>8. Contact</h2>
+  <p>Questions, or requests to delete your email: <a href="mailto:603356553@qq.com">603356553@qq.com</a></p>
+
+  <footer>
+    This extension is not affiliated with, endorsed by, or sponsored by YouTube or Google LLC. YouTube is a trademark of Google LLC.
+  </footer>
+</main>
+</body>
+</html>
