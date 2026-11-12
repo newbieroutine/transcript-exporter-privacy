@@ -64,13 +64,14 @@
 <body>
 <main>
   <h1>Privacy Policy</h1>
-  <p class="meta">YouTube™ Transcript &amp; Subtitle Exporter (Chrome extension)<br>Effective date: November 11, 2026</p>
+  <p class="meta">YouTube™ Transcript &amp; Subtitle Exporter (Chrome extension)<br>Effective date: November 12, 2026 (version 0.7.0)</p>
 
   <div class="summary">
     <ul>
       <li>Transcripts are fetched from YouTube and processed on your device. They are never sent to the developer or any other party.</li>
       <li>Requests to YouTube are sent without your YouTube/Google cookies.</li>
-      <li>The only data ever sent to the developer is an optional, anonymous "Pro" interest signal and, only if you type it in, your email address.</li>
+      <li>Data reaches the developer only when you click something that sends it: the optional "Pro" interest signal, a "Report a problem" message you wrote, and your email address if you type it in. Nothing is sent in the background.</li>
+      <li>None of these messages include the video you are watching, its link or title, or the transcript.</li>
       <li>No analytics, no tracking, no ads, no accounts, and no selling of data.</li>
     </ul>
   </div>
@@ -84,6 +85,7 @@
     <li><code>/youtubei/v1/get_panel</code> — YouTube's transcript panel, used only as a backup when the methods above fail. This request includes the YouTube client version and visitor value that are already present on the YouTube page.</li>
   </ul>
   <p>All of these requests are sent <strong>without your cookies</strong>, so they are not tied to your YouTube or Google account. As with any web request, YouTube can see your IP address. Requests are made only after you open the popup (which loads the caption list and a short preview) or click an export or copy button. Nothing is requested in the background, and the in-page "Transcript" button only opens the popup; it makes no requests itself. The extension does not download any audio or video.</p>
+  <p><strong>When you install or update the extension</strong>, YouTube tabs that are already open don't have the extension's scripts yet. At that moment the extension uses Chrome's <code>scripting</code> permission to load its own bundled script and style files (the same ones it adds to every YouTube page) into those open <code>www.youtube.com</code> tabs, so the "Transcript" button works without reloading. This step does not read the page and sends nothing. On first install the extension also opens a welcome page that is part of the extension itself; it loads nothing from the internet.</p>
   <p><strong>Optional translation</strong> uses Chrome's built-in on-device Translator (and, in backup mode, Chrome's built-in language detector). The transcript text is not sent to the developer. The first time you translate into a language, Chrome itself may download a language pack.</p>
 
   <h2>2. "Copy for ChatGPT" and "Copy for Claude"</h2>
@@ -110,7 +112,30 @@
   <p>Each type of message is sent <strong>at most once per installation</strong>: after it has been delivered, the extension remembers that and does not send it again. If delivery fails, it may be tried again the next time you click.</p>
   <p>Your email is used only to tell you when the feature launches. As with any web request, Web3Forms can see your IP address; the extension does not add it to the message. To have your email deleted, contact the developer (see Contact below).</p>
 
-  <h2>4. Settings stored on your device</h2>
+  <h2>4. "Report a problem"</h2>
+  <p>The popup has a "Report a problem" link. It opens a small form where you describe what went wrong and, if you want a reply, add your email. Nothing is sent until you click <strong>Send</strong>. The message goes through the same form service, <a href="https://web3forms.com/">Web3Forms</a> (<code>api.web3forms.com</code>), to the developer's inbox, with the subject "Transcript Exporter - Feedback".</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Field</th><th>What it contains</th></tr></thead>
+      <tbody>
+        <tr><td>Event name</td><td><code>feedback</code></td></tr>
+        <tr><td>Extension version</td><td>For example <code>0.7.0</code></td></tr>
+        <tr><td>Browser language</td><td>For example <code>en-US</code></td></tr>
+        <tr><td>Your message</td><td>What you typed (up to 2,000 characters)</td></tr>
+        <tr><td>Email (optional)</td><td>Only if you typed one</td></tr>
+        <tr><td>Error type (only if the popup showed an error)</td><td>A short internal code, for example <code>no_transcript</code></td></tr>
+        <tr><td>Fetch method (only if known)</td><td>Which of the extension's three ways was used to get the text: <code>ios</code>, <code>android</code> or <code>panel</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Like the Pro messages, it also carries the form's access key, the fixed subject line and the sender name "Transcript Exporter". It does <strong>not</strong> include the video link, video ID, title, page URL, the transcript, your browsing history or the random ID from section 3. If you want the developer to look at a specific video, you can paste its link into your message yourself.</p>
+  <p>To avoid accidental repeats, the extension allows one report every 60 seconds and at most 5 in any 24 hours. For this it keeps the times of recently sent reports on your device (see section 6). Reports are used only to find and fix problems, and your email only to reply to you. As with any web request, Web3Forms can see your IP address; the extension does not add it to the message. To have a report or your email deleted, contact the developer.</p>
+
+  <h2>5. Uninstall feedback page</h2>
+  <p>When you remove the extension, Chrome opens this web page: <code>https://newbieroutine.github.io/transcript-exporter-privacy/uninstall.html?v=&lt;version&gt;</code>. The only thing added to the address is the extension's version number (for example <code>?v=0.7.0</code>). The page is hosted on GitHub Pages, next to this policy. It loads nothing from other sites and has no analytics; like any website host, GitHub can see your IP address when the page loads.</p>
+  <p>The page has a short optional form: why you removed the extension (checkboxes), an optional comment and an optional email. Nothing is sent unless you click Send. If you do, your answers and the version number go through Web3Forms to the developer's inbox, with the subject "Transcript Exporter - Uninstall". You can also just close the page.</p>
+
+  <h2>6. Settings stored on your device</h2>
   <p>The extension remembers your choices only in your browser's local storage. These values are never uploaded. Removing the extension deletes them.</p>
   <div class="table-wrap">
     <table>
@@ -119,33 +144,35 @@
         <tr><td><code>ytx_inpage_hidden</code></td><td>chrome.storage.local</td><td>Whether you hid the in-page "Transcript" button</td></tr>
         <tr><td><code>ytx_readable</code></td><td>Extension local storage</td><td>"Readable paragraphs" on/off</td></tr>
         <tr><td><code>ytx_with_time</code></td><td>Extension local storage</td><td>"Include timestamps" on/off</td></tr>
+        <tr><td><code>ytx_clean</code></td><td>Extension local storage</td><td>"Remove [Music], [Applause]…" on/off</td></tr>
         <tr><td><code>ytx_translate</code></td><td>Extension local storage</td><td>Your last "Translate to" language</td></tr>
         <tr><td><code>ytx_ai_prompt</code></td><td>Extension local storage</td><td>Your custom AI prompt (only if you changed the default)</td></tr>
         <tr><td><code>ytx_anon_id</code></td><td>Extension local storage</td><td>The random ID described in section 3 (created only after you click the Pro button)</td></tr>
         <tr><td><code>ytx_pro_click_sent</code>, <code>ytx_waitlist_sent</code></td><td>Extension local storage</td><td>The time each Pro message was delivered, so it is not sent twice</td></tr>
+        <tr><td><code>ytx_feedback_log</code></td><td>Extension local storage</td><td>When problem reports were sent in the last 24 hours, used only for the limit in section 4</td></tr>
         <tr><td><code>ytx_ok_count</code>, <code>ytx_rate_done</code></td><td>Extension local storage</td><td>How many times an export or copy succeeded (counted up to 3), and whether you clicked "Rate it" or "Not now", so the one-line rating reminder is shown only once</td></tr>
       </tbody>
     </table>
   </div>
   <p>Your clipboard is written only when you click a copy button. The extension never reads your clipboard.</p>
 
-  <h2>5. What we do not do</h2>
+  <h2>7. What we do not do</h2>
   <ul>
-    <li>No analytics, telemetry, tracking pixels or advertising.</li>
+    <li>No analytics, telemetry, tracking pixels or advertising. The extension sends nothing in the background. The only messages it sends to the developer are the ones in sections 3 and 4, and only after you click to send them.</li>
     <li>No user accounts or sign-in.</li>
     <li>We do not collect your browsing history, the videos you watch, or the transcripts you export.</li>
     <li>We do not sell, rent or share data with third parties, and we do not use it for any purpose unrelated to the extension.</li>
     <li>No remote code: all of the extension's code is included in the package published on the Chrome Web Store.</li>
   </ul>
 
-  <h2>6. Children's privacy</h2>
-  <p>The extension is not directed at children under 13, and we do not knowingly collect personal information from children. If you believe a child has sent us an email address through the Pro form, please contact us and we will delete it.</p>
+  <h2>8. Children's privacy</h2>
+  <p>The extension is not directed at children under 13, and we do not knowingly collect personal information from children. If you believe a child has sent us an email address or a message through the Pro form, "Report a problem" or the uninstall page, please contact us and we will delete it.</p>
 
-  <h2>7. Changes to this policy</h2>
+  <h2>9. Changes to this policy</h2>
   <p>If the extension's data practices change, this page will be updated and its effective date changed before the new version is published.</p>
 
-  <h2>8. Contact</h2>
-  <p>Questions, or requests to delete your email: <a href="mailto:603356553@qq.com">603356553@qq.com</a></p>
+  <h2>10. Contact</h2>
+  <p>Questions, or requests to delete your email or a message you sent: <a href="mailto:603356553@qq.com">603356553@qq.com</a></p>
 
   <footer>
     This extension is not affiliated with, endorsed by, or sponsored by YouTube or Google LLC. YouTube is a trademark of Google LLC.

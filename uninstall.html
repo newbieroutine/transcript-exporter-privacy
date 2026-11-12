@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Transcript Exporter removed</title>
+<!--
+  Opened by Chrome after the extension is removed (chrome.runtime.setUninstallURL), as uninstall.html?v=<version>.
+  Static and self-contained: no external scripts, fonts, images or analytics.
+  The form is sent to Web3Forms only when the user clicks Send.
+-->
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1f2328;
+    --muted: #59636e;
+    --border: #d1d9e0;
+    --card: #f6f8fa;
+    --link: #0969da;
+    --btn: #1f6feb;
+    --btn-fg: #ffffff;
+    --err: #cf222e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #9198a1;
+      --border: #3d444d;
+      --card: #161b22;
+      --link: #4493f8;
+      --btn: #2f81f7;
+      --btn-fg: #ffffff;
+      --err: #f85149;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 560px; margin: 0 auto; padding: 40px 20px 56px; }
+  h1 { font-size: 1.5rem; line-height: 1.3; margin: 0 0 8px; }
+  p { margin: 0 0 1em; }
+  a { color: var(--link); }
+  fieldset { border: 0; padding: 0; margin: 0 0 18px; }
+  legend { font-weight: 600; padding: 0; margin-bottom: 6px; }
+  .opt { display: flex; align-items: center; gap: 10px; padding: 9px 12px; margin: 6px 0; border: 1px solid var(--border); border-radius: 8px; background: var(--card); cursor: pointer; }
+  .opt input { width: 18px; height: 18px; margin: 0; flex: none; accent-color: var(--btn); }
+  label.field { display: block; font-weight: 600; margin: 0 0 6px; }
+  label.field span { font-weight: 400; color: var(--muted); }
+  textarea, input[type=email] {
+    width: 100%;
+    font: inherit;
+    color: inherit;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin: 0 0 16px;
+  }
+  textarea { min-height: 90px; resize: vertical; }
+  button {
+    font: inherit;
+    font-weight: 600;
+    color: var(--btn-fg);
+    background: var(--btn);
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 22px;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.6; cursor: default; }
+  .note { color: var(--muted); font-size: 0.9em; margin-top: 14px; }
+  .msg { min-height: 1.6em; margin: 10px 0 0; }
+  .msg.err { color: var(--err); }
+  .hidden { display: none; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+</style>
+</head>
+<body>
+<main>
+  <div id="ask">
+    <h1>Sorry to see you go</h1>
+    <p>Thanks for trying Transcript Exporter. If you have a few seconds, tell me why you removed it. Everything here is optional.</p>
+
+    <form id="form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="24534b29-d059-4a19-a94c-8bf38f2cc88b">
+      <input type="hidden" name="subject" value="Transcript Exporter - Uninstall">
+      <input type="hidden" name="from_name" value="Transcript Exporter">
+      <input type="hidden" name="event" value="uninstall">
+      <input type="hidden" name="version" id="version" value="">
+      <input type="hidden" name="redirect" value="https://newbieroutine.github.io/transcript-exporter-privacy/uninstall.html?sent=1">
+      <div class="hp" aria-hidden="true"><input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off"></div>
+
+      <fieldset>
+        <legend>Why did you remove it?</legend>
+        <label class="opt"><input type="checkbox" name="reason_1" value="Didn't work on a video"> Didn't work on a video</label>
+        <label class="opt"><input type="checkbox" name="reason_2" value="Missing a feature I need"> Missing a feature I need</label>
+        <label class="opt"><input type="checkbox" name="reason_3" value="Hard to find or use"> Hard to find or use</label>
+        <label class="opt"><input type="checkbox" name="reason_4" value="Only needed it once"> Only needed it once</label>
+        <label class="opt"><input type="checkbox" name="reason_5" value="Other"> Other</label>
+      </fieldset>
+
+      <label class="field" for="message">Anything else? <span>(optional)</span></label>
+      <textarea id="message" name="message" maxlength="2000" placeholder="Which video didn't work, or what you wanted it to do"></textarea>
+
+      <label class="field" for="email">Email <span>(optional, only if you want a reply)</span></label>
+      <input id="email" type="email" name="email" maxlength="254" autocomplete="email">
+
+      <button id="send" type="submit">Send</button>
+      <p id="msg" class="msg" role="status"></p>
+    </form>
+
+    <p class="note">Only what you fill in here and the extension's version number are sent, and only when you click Send. <a href="./">Privacy policy</a></p>
+  </div>
+
+  <div id="thanks" class="hidden">
+    <h1>Thanks, got it</h1>
+    <p>That helps a lot. You can close this tab now.</p>
+    <p class="note"><a href="./">Privacy policy</a></p>
+  </div>
+</main>
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var ask = document.getElementById('ask');
+  var thanks = document.getElementById('thanks');
+  function showThanks() { ask.classList.add('hidden'); thanks.classList.remove('hidden'); }
+  if (params.get('sent') === '1') { showThanks(); return; }
+
+  // Only version-like values (e.g. 0.7.0) are kept; anything else is dropped.
+  var v = params.get('v') || '';
+  document.getElementById('version').value = /^[0-9]{1,4}(\.[0-9]{1,5}){0,3}$/.test(v) ? v : '';
+
+  var form = document.getElementById('form');
+  var btn = document.getElementById('send');
+  var msg = document.getElementById('msg');
+  function say(text, isErr) { msg.textContent = text; msg.className = isErr ? 'msg err' : 'msg'; }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var reasons = [];
+    var boxes = form.querySelectorAll('.opt input:checked');
+    for (var i = 0; i < boxes.length; i++) reasons.push(boxes[i].value);
+    var text = form.message.value.trim();
+    var email = form.email.value.trim();
+    if (!reasons.length && !text) { say('Tick a reason or write a few words first.', true); return; }
+    if (email && !form.email.checkValidity()) { say('That email doesn\'t look right. Fix it or leave it empty.', true); return; }
+
+    var data = {
+      access_key: form.access_key.value,
+      subject: form.subject.value,
+      from_name: form.from_name.value,
+      event: 'uninstall',
+      version: form.version.value,
+      reasons: reasons.join('; '),
+      message: text
+    };
+    if (email) data.email = email;
+    if (form.botcheck.checked) data.botcheck = true;
+
+    btn.disabled = true;
+    say('Sending…', false);
+    fetch(form.action, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (j) { return res.ok && j.success === true; });
+    }).then(function (ok) {
+      if (ok) { showThanks(); return; }
+      btn.disabled = false;
+      say('Couldn\'t send that. Please try again in a moment.', true);
+    }, function () {
+      btn.disabled = false;
+      say('Couldn\'t send that. Check your connection and try again.', true);
+    });
+  });
+})();
+</script>
+</body>
+</html>
