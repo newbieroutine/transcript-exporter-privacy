@@ -64,15 +64,16 @@
 <body>
 <main>
   <h1>Privacy Policy</h1>
-  <p class="meta">YouTube™ Transcript &amp; Subtitle Exporter (Chrome extension)<br>Effective date: November 13, 2026 (version 0.8.0)</p>
+  <p class="meta">YouTube™ Transcript &amp; Subtitle Exporter (Chrome extension)<br>Effective date: November 21, 2026 (version 0.9.0)</p>
 
   <div class="summary">
     <ul>
-      <li>Transcripts are fetched from YouTube and processed on your device. They are never sent to the developer or any other party.</li>
+      <li>Captions are fetched from YouTube and processed on your device. They are never sent to the developer or any other party.</li>
       <li>Requests to YouTube are sent without your YouTube/Google cookies.</li>
-      <li>Data reaches the developer only when you click something that sends it: the optional "Pro" interest signal, a "Report a problem" message you wrote, and your email address if you type it in. Nothing is sent in the background.</li>
-      <li>None of these messages include the video you are watching, its link or title, or the transcript.</li>
-      <li>No analytics, no tracking, no ads, no accounts, and no selling of data.</li>
+      <li>AI transcription (Pro, paid) is the only feature that sends video content: only after you click Start, short pieces of the sound of the video playing in your tab are sent to the developer's server on Cloudflare and turned into text there. The text comes back only to you. The developer does not store the audio or the text.</li>
+      <li>Data reaches the developer only when you click something that sends it: the optional "Pro" interest signal, a "Report a problem" message you wrote, your email address if you type it in, and, if you use AI transcription, your license key and the audio described above. Nothing is sent before you click.</li>
+      <li>None of these messages include the link, ID or title of the video you are watching, or the transcript.</li>
+      <li>No analytics, no tracking, no ads, no sign-in, and no selling of data. AI transcription uses a license key instead of an account; purchases and license keys are handled by Dodo Payments.</li>
     </ul>
   </div>
 
@@ -84,15 +85,42 @@
     <li><code>/api/timedtext</code> — the caption text of the track you chose;</li>
     <li><code>/youtubei/v1/get_panel</code> — YouTube's transcript panel, used only as a backup when the methods above fail. This request includes the YouTube client version and visitor value that are already present on the YouTube page.</li>
   </ul>
-  <p>All of these requests are sent <strong>without your cookies</strong>, so they are not tied to your YouTube or Google account. As with any web request, YouTube can see your IP address. Requests are made only after you open the popup (which loads the caption list and a short preview) or click an export or copy button. Nothing is requested in the background, and the in-page "Transcript" button only opens the popup; it makes no requests itself. The extension does not download any audio or video.</p>
+  <p>All of these requests are sent <strong>without your cookies</strong>, so they are not tied to your YouTube or Google account. As with any web request, YouTube can see your IP address. Requests are made only after you open the popup (which loads the caption list and a short preview) or click an export or copy button. Nothing is requested in the background, and the in-page "Transcript" button only opens the popup; it makes no requests itself. The extension does not download any audio or video from YouTube. The only time it uses a video's sound is AI transcription (section 3), which records the sound of the video playing in your tab after you click Start.</p>
   <p><strong>When you install or update the extension</strong>, YouTube tabs that are already open don't have the extension's scripts yet. At that moment the extension uses Chrome's <code>scripting</code> permission to load its own bundled script and style files (the same ones it adds to every YouTube page) into those open <code>www.youtube.com</code> tabs, so the "Transcript" button works without reloading. This step does not read the page and sends nothing. On first install the extension also opens a welcome page that is part of the extension itself; it loads nothing from the internet.</p>
-  <p><strong>Optional translation</strong> uses Chrome's built-in on-device Translator (and, in backup mode, Chrome's built-in language detector). The transcript text is not sent to the developer. The first time you translate into a language, Chrome itself may download a language pack.</p>
+  <p><strong>Optional translation</strong> uses Chrome's built-in on-device Translator (and, in backup mode, Chrome's built-in language detector). The transcript text is not sent to the developer. The first time you translate into a language, Chrome itself may download a language pack. AI transcription is different: it does not run on your device (see section 3).</p>
 
   <h2>2. "Ask an AI": ChatGPT and Claude</h2>
   <p>The ChatGPT and Claude buttons copy your prompt, the video title, the video link and the transcript to your clipboard, and then open <code>chatgpt.com</code> or <code>claude.ai</code> in a new tab. The extension sends nothing to those websites. You decide whether to paste the text there; anything you paste is handled under that website's own privacy policy.</p>
 
-  <h2>3. Optional "Pro" interest signal and email</h2>
-  <p>The popup has a "Playlist export (Pro)" button for a feature that is not available yet. Nothing is sent unless you click it. The extension uses the form service <a href="https://web3forms.com/">Web3Forms</a> (<code>api.web3forms.com</code>) to deliver these messages to the developer's inbox:</p>
+  <h2>3. AI transcription (Pro)</h2>
+  <p>Some videos have no captions at all. For those, AI transcription, a paid Pro feature, can create a transcript from the video's sound. Nothing in this section happens unless you have activated a license key, agreed to the data notice shown before first use ("I agree"), and clicked <strong>Start</strong>.</p>
+  <p><strong>How it works.</strong> After you click Start, the extension plays the video in your YouTube tab (muted, at the speed you picked) and records its sound from the page while it plays. It does not download the video or its audio from YouTube's servers. The sound is cut into short pieces of up to about 60 seconds of video each. The pieces are sent one at a time to the developer's server, which runs on Cloudflare Workers (<code>ytx-asr.ytx-asr.workers.dev</code>), and are converted to text there by Cloudflare Workers AI (a Whisper speech-recognition model). The text and its timing are sent back only to your browser. When the video ends or you cancel, recording stops and the video's sound, speed and position are put back. Closing the tab or going to another video also stops it. The transcript is made by AI and may contain errors.</p>
+  <p><strong>What is sent with each piece of audio</strong> (over HTTPS, without your cookies):</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Field</th><th>What it contains</th></tr></thead>
+      <tbody>
+        <tr><td>Audio</td><td>The recorded piece of the video's sound (WebM/Opus, about 32 kbit/s)</td></tr>
+        <tr><td>License key and activation ID</td><td>Used to check that your license is valid and to count the minutes you used</td></tr>
+        <tr><td>Extension version</td><td>For example <code>0.9.0</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The video link, video ID and title are not sent. Checking how many minutes you have left sends only the license key, activation ID and extension version.</p>
+  <p><strong>Activating and deactivating a license.</strong> When you enter your license key, the extension sends it to the developer's server with a device name such as "Chrome on Windows". The server passes the key and device name to Dodo Payments to activate the key on this device. Clicking "Deactivate on this device" sends the key and activation ID the same way, so the activation is released. The license key and activation ID are kept on your device (see section 7).</p>
+  <p><strong>What the developer's server keeps.</strong> It does <strong>not</strong> store the audio or the text; they are only passed through to produce the transcript. It keeps:</p>
+  <ul>
+    <li>for each license, identified by a SHA-256 hash of the key: the Dodo Payments license, product and customer IDs, and how many minutes you used in the current 30-day period;</li>
+    <li>the result of the last license check, for 10 minutes;</li>
+    <li>request counters per license and per IP address, for about 2 minutes, to limit abuse;</li>
+    <li>short logs that contain only the first 8 characters of the key hash, the audio length and whether the request worked.</li>
+  </ul>
+  <p>As with any web request, Cloudflare can see your IP address. Cloudflare runs the server and the speech recognition; see the <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a>.</p>
+  <p><strong>Purchase and license key.</strong> You buy AI transcription from Dodo Payments. Your payment details, your email address and the license key are handled by Dodo Payments under the <a href="https://dodopayments.com/legal/privacy-policy">Dodo Payments Privacy Policy</a>. The extension never sees your payment details. The developer can see the order in Dodo Payments, including your email address, and uses it only for license and purchase support.</p>
+  <p><strong>On your device.</strong> The finished transcript is kept in the browser's session storage so you can export it after closing the popup. It is deleted when you close Chrome. You can export it in the same formats as captions.</p>
+
+  <h2>4. Optional "Pro" interest signal and email</h2>
+  <p>The popup has a "Playlist export (Pro)" button for a feature that is not available yet (this is separate from AI transcription in section 3). Nothing is sent unless you click it. The extension uses the form service <a href="https://web3forms.com/">Web3Forms</a> (<code>api.web3forms.com</code>) to deliver these messages to the developer's inbox:</p>
   <div class="table-wrap">
     <table>
       <thead><tr><th>When</th><th>Fields sent</th></tr></thead>
@@ -112,36 +140,41 @@
   <p>Each type of message is sent <strong>at most once per installation</strong>: after it has been delivered, the extension remembers that and does not send it again. If delivery fails, it may be tried again the next time you click.</p>
   <p>Your email is used only to tell you when the feature launches. As with any web request, Web3Forms can see your IP address; the extension does not add it to the message. To have your email deleted, contact the developer (see Contact below).</p>
 
-  <h2>4. "Report a problem"</h2>
+  <h2>5. "Report a problem"</h2>
   <p>The popup has a "Report a problem" link. It opens a small form where you describe what went wrong and, if you want a reply, add your email. Nothing is sent until you click <strong>Send</strong>. The message goes through the same form service, <a href="https://web3forms.com/">Web3Forms</a> (<code>api.web3forms.com</code>), to the developer's inbox, with the subject "Transcript Exporter - Feedback".</p>
   <div class="table-wrap">
     <table>
       <thead><tr><th>Field</th><th>What it contains</th></tr></thead>
       <tbody>
         <tr><td>Event name</td><td><code>feedback</code></td></tr>
-        <tr><td>Extension version</td><td>For example <code>0.8.0</code></td></tr>
+        <tr><td>Extension version</td><td>For example <code>0.9.0</code></td></tr>
         <tr><td>Browser language</td><td>For example <code>en-US</code></td></tr>
         <tr><td>Your message</td><td>What you typed (up to 2,000 characters)</td></tr>
         <tr><td>Email (optional)</td><td>Only if you typed one</td></tr>
         <tr><td>Error type (only if the popup showed an error)</td><td>A short internal code, for example <code>no_transcript</code></td></tr>
-        <tr><td>Fetch method (only if known)</td><td>Which of the extension's three ways was used to get the text: <code>ios</code>, <code>android</code> or <code>panel</code></td></tr>
+        <tr><td>Fetch method (only if known)</td><td>Which way was used to get the text: <code>ios</code>, <code>android</code> or <code>panel</code> for captions, or <code>asr</code> for AI transcription</td></tr>
       </tbody>
     </table>
   </div>
-  <p>Like the Pro messages, it also carries the form's access key, the fixed subject line and the sender name "Transcript Exporter". It does <strong>not</strong> include the video link, video ID, title, page URL, the transcript, your browsing history or the random ID from section 3. If you want the developer to look at a specific video, you can paste its link into your message yourself.</p>
-  <p>To avoid accidental repeats, the extension allows one report every 60 seconds and at most 5 in any 24 hours. For this it keeps the times of recently sent reports on your device (see section 6). Reports are used only to find and fix problems, and your email only to reply to you. As with any web request, Web3Forms can see your IP address; the extension does not add it to the message. To have a report or your email deleted, contact the developer.</p>
+  <p>Like the Pro messages, it also carries the form's access key, the fixed subject line and the sender name "Transcript Exporter". It does <strong>not</strong> include the video link, video ID, title, page URL, the transcript, your browsing history, your license key or the random ID from section 4. If you want the developer to look at a specific video, you can paste its link into your message yourself.</p>
+  <p>To avoid accidental repeats, the extension allows one report every 60 seconds and at most 5 in any 24 hours. For this it keeps the times of recently sent reports on your device (see section 7). Reports are used only to find and fix problems, and your email only to reply to you. As with any web request, Web3Forms can see your IP address; the extension does not add it to the message. To have a report or your email deleted, contact the developer.</p>
 
-  <h2>5. Uninstall feedback page</h2>
-  <p>When you remove the extension, Chrome opens this web page: <code>https://newbieroutine.github.io/transcript-exporter-privacy/uninstall.html?v=&lt;version&gt;</code>. The only thing added to the address is the extension's version number (for example <code>?v=0.8.0</code>). The page is hosted on GitHub Pages, next to this policy. It loads nothing from other sites and has no analytics; like any website host, GitHub can see your IP address when the page loads.</p>
+  <h2>6. Uninstall feedback page</h2>
+  <p>When you remove the extension, Chrome opens this web page: <code>https://newbieroutine.github.io/transcript-exporter-privacy/uninstall.html?v=&lt;version&gt;</code>. The only thing added to the address is the extension's version number (for example <code>?v=0.9.0</code>). The page is hosted on GitHub Pages, next to this policy. It loads nothing from other sites and has no analytics; like any website host, GitHub can see your IP address when the page loads.</p>
   <p>The page has a short optional form: why you removed the extension (checkboxes), an optional comment and an optional email. Nothing is sent unless you click Send. If you do, your answers and the version number go through Web3Forms to the developer's inbox, with the subject "Transcript Exporter - Uninstall". You can also just close the page.</p>
 
-  <h2>6. Settings stored on your device</h2>
-  <p>The extension remembers your choices only in your browser's local storage. These values are never uploaded. Removing the extension deletes them.</p>
+  <h2>7. Data stored on your device</h2>
+  <p>The extension keeps your choices and a few records only in your browser's storage. These values are never uploaded, except the license key and activation ID, which are sent with AI transcription requests (section 3). Removing the extension deletes all of them; items in <code>chrome.storage.session</code> are also deleted when you close Chrome.</p>
   <div class="table-wrap">
     <table>
       <thead><tr><th>Stored item</th><th>Where</th><th>Purpose</th></tr></thead>
       <tbody>
         <tr><td><code>ytx_inpage_hidden</code></td><td>chrome.storage.local</td><td>Whether you hid the in-page "Transcript" button</td></tr>
+        <tr><td><code>ytx_license</code></td><td>chrome.storage.local</td><td>Your AI transcription license key, its SHA-256 hash, the activation ID for this device and when it was activated (only after you activate a key; removed when you deactivate)</td></tr>
+        <tr><td><code>ytx_asr_consent</code></td><td>chrome.storage.local</td><td>When you agreed to the AI transcription data notice, and which version of it, so you are asked again if it changes</td></tr>
+        <tr><td><code>ytx_asr:&lt;videoId&gt;</code></td><td>chrome.storage.session</td><td>The AI transcript of that video and its progress: status, text with timing, which parts are done, detected language, video title and length. Deleted when you close Chrome</td></tr>
+        <tr><td><code>ytx_asr_tab:&lt;tabId&gt;</code></td><td>chrome.storage.session</td><td>Which video an AI transcription is running for in that tab, so it can be stopped cleanly if the tab is closed. Removed when the transcription ends</td></tr>
+        <tr><td><code>ytx_asr_rate</code></td><td>Extension local storage</td><td>The AI transcription speed you picked last (1x, 1.5x or 2x)</td></tr>
         <tr><td><code>ytx_readable</code></td><td>Extension local storage</td><td>"Paragraphs" on/off</td></tr>
         <tr><td><code>ytx_with_time</code></td><td>Extension local storage</td><td>"Timestamps" on/off</td></tr>
         <tr><td><code>ytx_clean</code></td><td>Extension local storage</td><td>"Remove [Music]" on/off</td></tr>
@@ -149,31 +182,31 @@
         <tr><td><code>ytx_format</code></td><td>Extension local storage</td><td>The export format you picked last (Copy, TXT, SRT, VTT or MD)</td></tr>
         <tr><td><code>ytx_translate</code></td><td>Extension local storage</td><td>Your last "Translate" language</td></tr>
         <tr><td><code>ytx_ai_prompt</code></td><td>Extension local storage</td><td>Your custom AI prompt (only if you changed the default)</td></tr>
-        <tr><td><code>ytx_anon_id</code></td><td>Extension local storage</td><td>The random ID described in section 3 (created only after you click the Pro button)</td></tr>
+        <tr><td><code>ytx_anon_id</code></td><td>Extension local storage</td><td>The random ID described in section 4 (created only after you click the Pro button)</td></tr>
         <tr><td><code>ytx_pro_click_sent</code>, <code>ytx_waitlist_sent</code></td><td>Extension local storage</td><td>The time each Pro message was delivered, so it is not sent twice</td></tr>
-        <tr><td><code>ytx_feedback_log</code></td><td>Extension local storage</td><td>When problem reports were sent in the last 24 hours, used only for the limit in section 4</td></tr>
+        <tr><td><code>ytx_feedback_log</code></td><td>Extension local storage</td><td>When problem reports were sent in the last 24 hours, used only for the limit in section 5</td></tr>
         <tr><td><code>ytx_ok_count</code>, <code>ytx_rate_done</code></td><td>Extension local storage</td><td>How many times an export or copy succeeded (counted up to 3), and whether you clicked "Rate it" or "Not now", so the one-line rating reminder is shown only once</td></tr>
       </tbody>
     </table>
   </div>
   <p>Your clipboard is written only when you click a copy button. The extension never reads your clipboard.</p>
 
-  <h2>7. What we do not do</h2>
+  <h2>8. What we do not do</h2>
   <ul>
-    <li>No analytics, telemetry, tracking pixels or advertising. The extension sends nothing in the background. The only messages it sends to the developer are the ones in sections 3 and 4, and only after you click to send them.</li>
-    <li>No user accounts or sign-in.</li>
-    <li>We do not collect your browsing history, the videos you watch, or the transcripts you export.</li>
-    <li>We do not sell, rent or share data with third parties, and we do not use it for any purpose unrelated to the extension.</li>
+    <li>No analytics, telemetry, tracking pixels or advertising. The extension sends nothing in the background. The only data it sends to the developer is described in sections 3, 4 and 5, and only after you click to send it (for AI transcription, after you click Start).</li>
+    <li>No user accounts or sign-in. AI transcription uses a license key (section 3).</li>
+    <li>We do not collect your browsing history, the videos you watch, or the transcripts you export. Audio and text from AI transcription pass through the developer's server only to make the transcript and are not stored.</li>
+    <li>We do not sell or rent data. We share it only with the service providers named in this policy (Web3Forms, Cloudflare and Dodo Payments), only to provide the features described here, and we do not use it for any purpose unrelated to the extension.</li>
     <li>No remote code: all of the extension's code is included in the package published on the Chrome Web Store.</li>
   </ul>
 
-  <h2>8. Children's privacy</h2>
+  <h2>9. Children's privacy</h2>
   <p>The extension is not directed at children under 13, and we do not knowingly collect personal information from children. If you believe a child has sent us an email address or a message through the Pro form, "Report a problem" or the uninstall page, please contact us and we will delete it.</p>
 
-  <h2>9. Changes to this policy</h2>
-  <p>If the extension's data practices change, this page will be updated and its effective date changed before the new version is published.</p>
+  <h2>10. Changes to this policy</h2>
+  <p>If the extension's data practices change, this page will be updated and its effective date changed before the new version is published. If what AI transcription sends changes, the extension asks for your agreement again before you use it.</p>
 
-  <h2>10. Contact</h2>
+  <h2>11. Contact</h2>
   <p>Questions, or requests to delete your email or a message you sent: <a href="mailto:603356553@qq.com">603356553@qq.com</a></p>
 
   <footer>
