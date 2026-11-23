@@ -89,8 +89,8 @@
   <p><strong>When you install or update the extension</strong>, YouTube tabs that are already open don't have the extension's scripts yet. At that moment the extension uses Chrome's <code>scripting</code> permission to load its own bundled script and style files (the same ones it adds to every YouTube page) into those open <code>www.youtube.com</code> tabs, so the "Transcript" button works without reloading. This step does not read the page and sends nothing. On first install the extension also opens a welcome page that is part of the extension itself; it loads nothing from the internet.</p>
   <p><strong>Optional translation</strong> uses Chrome's built-in on-device Translator (and, in backup mode, Chrome's built-in language detector). The transcript text is not sent to the developer. The first time you translate into a language, Chrome itself may download a language pack. AI transcription is different: it does not run on your device (see section 3).</p>
 
-  <h2>2. "Ask an AI": ChatGPT and Claude</h2>
-  <p>The ChatGPT and Claude buttons copy your prompt, the video title, the video link and the transcript to your clipboard, and then open <code>chatgpt.com</code> or <code>claude.ai</code> in a new tab. The extension sends nothing to those websites. You decide whether to paste the text there; anything you paste is handled under that website's own privacy policy.</p>
+  <h2>2. "Ask an AI": ChatGPT, Claude, Gemini, Grok, Perplexity and Mistral</h2>
+  <p>The "Ask an AI" buttons (ChatGPT, Claude, and Gemini, Grok, Perplexity and Mistral under "More") copy the prompt you picked, the video title, the video link and the transcript to your clipboard, and then open the site you chose in a new tab: <code>chatgpt.com</code>, <code>claude.ai</code>, <code>gemini.google.com</code>, <code>grok.com</code>, <code>perplexity.ai</code> or <code>chat.mistral.ai</code>. The extension sends nothing to those websites. You decide whether to paste the text there; anything you paste is handled under that website's own privacy policy.</p>
 
   <h2>3. AI transcription (Pro)</h2>
   <p>Some videos have no captions at all. For those, AI transcription, a paid Pro feature, can create a transcript from the video's sound. Nothing in this section happens unless you have activated a license key, agreed to the data notice shown before first use ("I agree"), and clicked <strong>Start</strong>.</p>
@@ -163,7 +163,8 @@
         <tr><td><code>ytx_header</code></td><td>Extension local storage</td><td>"Title &amp; link on top" on/off</td></tr>
         <tr><td><code>ytx_format</code></td><td>Extension local storage</td><td>The export format you picked last (Copy, TXT, SRT, VTT or MD)</td></tr>
         <tr><td><code>ytx_translate</code></td><td>Extension local storage</td><td>Your last "Translate" language</td></tr>
-        <tr><td><code>ytx_ai_prompt</code></td><td>Extension local storage</td><td>Your custom AI prompt (only if you changed the default)</td></tr>
+        <tr><td><code>ytx_ai_prompts</code></td><td>Extension local storage</td><td>Your saved AI prompts (up to 6 of your own) and which prompt is selected</td></tr>
+        <tr><td><code>ytx_ai_prompt</code></td><td>Extension local storage</td><td>Your custom AI prompt from versions before 0.10.0; copied into <code>ytx_ai_prompts</code> and no longer changed</td></tr>
         <tr><td><code>ytx_anon_id</code></td><td>Extension local storage</td><td>The random ID described in section 4 (only on devices where the Pro button of a version before 0.9.0 was clicked)</td></tr>
         <tr><td><code>ytx_pro_click_sent</code>, <code>ytx_waitlist_sent</code></td><td>Extension local storage</td><td>Left over from versions before 0.9.0: the time each Pro message was delivered (no longer used)</td></tr>
         <tr><td><code>ytx_feedback_log</code></td><td>Extension local storage</td><td>When problem reports were sent in the last 24 hours, used only for the limit in section 5</td></tr>
