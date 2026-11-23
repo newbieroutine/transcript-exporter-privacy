@@ -71,7 +71,7 @@
       <li>Captions are fetched from YouTube and processed on your device. They are never sent to the developer or any other party.</li>
       <li>Requests to YouTube are sent without your YouTube/Google cookies.</li>
       <li>AI transcription (Pro, paid) is the only feature that sends video content: only after you click Start, short pieces of the sound of the video playing in your tab are sent to the developer's server on Cloudflare and turned into text there. The text comes back only to you. The developer does not store the audio or the text.</li>
-      <li>Data reaches the developer only when you click something that sends it: the optional "Pro" interest signal, a "Report a problem" message you wrote, your email address if you type it in, and, if you use AI transcription, your license key and the audio described above. Nothing is sent before you click.</li>
+      <li>Data reaches the developer only when you click something that sends it: a "Report a problem" message you wrote, your email address if you type it in, and, if you use AI transcription, your license key and the audio described above. Nothing is sent before you click.</li>
       <li>None of these messages include the link, ID or title of the video you are watching, or the transcript.</li>
       <li>No analytics, no tracking, no ads, no sign-in, and no selling of data. AI transcription uses a license key instead of an account; purchases and license keys are handled by Dodo Payments.</li>
     </ul>
@@ -119,26 +119,8 @@
   <p><strong>Purchase and license key.</strong> You buy AI transcription from Dodo Payments. Your payment details, your email address and the license key are handled by Dodo Payments under the <a href="https://dodopayments.com/legal/privacy-policy">Dodo Payments Privacy Policy</a>. The extension never sees your payment details. The developer can see the order in Dodo Payments, including your email address, and uses it only for license and purchase support.</p>
   <p><strong>On your device.</strong> The finished transcript is kept in the browser's session storage so you can export it after closing the popup. It is deleted when you close Chrome. You can export it in the same formats as captions.</p>
 
-  <h2>4. Optional "Pro" interest signal and email</h2>
-  <p>The popup has a "Playlist export (Pro)" button for a feature that is not available yet (this is separate from AI transcription in section 3). Nothing is sent unless you click it. The extension uses the form service <a href="https://web3forms.com/">Web3Forms</a> (<code>api.web3forms.com</code>) to deliver these messages to the developer's inbox:</p>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>When</th><th>Fields sent</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>You click "Playlist export (Pro)"</td>
-          <td>event name (<code>pro_click</code>), extension version, your browser language (for example <code>en-US</code>), and a random ID generated on your device</td>
-        </tr>
-        <tr>
-          <td>You type your email and click "Notify me"</td>
-          <td>event name (<code>waitlist</code>), extension version, browser language, the same random ID, and <strong>the email address you entered</strong></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <p>Each message also carries the form's access key, a fixed subject line and the sender name "Transcript Exporter". The random ID is created only when you first click the Pro button. It is not linked to your Google account, your YouTube activity or any video. No video, transcript or browsing information is included.</p>
-  <p>Each type of message is sent <strong>at most once per installation</strong>: after it has been delivered, the extension remembers that and does not send it again. If delivery fails, it may be tried again the next time you click.</p>
-  <p>Your email is used only to tell you when the feature launches. As with any web request, Web3Forms can see your IP address; the extension does not add it to the message. To have your email deleted, contact the developer (see Contact below).</p>
+  <h2>4. Earlier "Pro" interest signal (removed in 0.9.0)</h2>
+  <p>Versions before 0.9.0 had a "Playlist export (Pro)" button. If you clicked it, the extension sent the developer a one-time note through the form service <a href="https://web3forms.com/">Web3Forms</a> (<code>api.web3forms.com</code>): the event name, extension version, browser language and a random ID generated on your device, plus your email only if you typed it and clicked "Notify me". Version 0.9.0 removed this button and sends nothing of this kind. Emails received this way are used only to tell you about the feature, and you can ask the developer to delete yours (see Contact below).</p>
 
   <h2>5. "Report a problem"</h2>
   <p>The popup has a "Report a problem" link. It opens a small form where you describe what went wrong and, if you want a reply, add your email. Nothing is sent until you click <strong>Send</strong>. The message goes through the same form service, <a href="https://web3forms.com/">Web3Forms</a> (<code>api.web3forms.com</code>), to the developer's inbox, with the subject "Transcript Exporter - Feedback".</p>
@@ -156,7 +138,7 @@
       </tbody>
     </table>
   </div>
-  <p>Like the Pro messages, it also carries the form's access key, the fixed subject line and the sender name "Transcript Exporter". It does <strong>not</strong> include the video link, video ID, title, page URL, the transcript, your browsing history, your license key or the random ID from section 4. If you want the developer to look at a specific video, you can paste its link into your message yourself.</p>
+  <p>It also carries the form's access key, the fixed subject line and the sender name "Transcript Exporter". It does <strong>not</strong> include the video link, video ID, title, page URL, the transcript, your browsing history, your license key or the random ID from section 4. If you want the developer to look at a specific video, you can paste its link into your message yourself.</p>
   <p>To avoid accidental repeats, the extension allows one report every 60 seconds and at most 5 in any 24 hours. For this it keeps the times of recently sent reports on your device (see section 7). Reports are used only to find and fix problems, and your email only to reply to you. As with any web request, Web3Forms can see your IP address; the extension does not add it to the message. To have a report or your email deleted, contact the developer.</p>
 
   <h2>6. Uninstall feedback page</h2>
@@ -182,8 +164,8 @@
         <tr><td><code>ytx_format</code></td><td>Extension local storage</td><td>The export format you picked last (Copy, TXT, SRT, VTT or MD)</td></tr>
         <tr><td><code>ytx_translate</code></td><td>Extension local storage</td><td>Your last "Translate" language</td></tr>
         <tr><td><code>ytx_ai_prompt</code></td><td>Extension local storage</td><td>Your custom AI prompt (only if you changed the default)</td></tr>
-        <tr><td><code>ytx_anon_id</code></td><td>Extension local storage</td><td>The random ID described in section 4 (created only after you click the Pro button)</td></tr>
-        <tr><td><code>ytx_pro_click_sent</code>, <code>ytx_waitlist_sent</code></td><td>Extension local storage</td><td>The time each Pro message was delivered, so it is not sent twice</td></tr>
+        <tr><td><code>ytx_anon_id</code></td><td>Extension local storage</td><td>The random ID described in section 4 (only on devices where the Pro button of a version before 0.9.0 was clicked)</td></tr>
+        <tr><td><code>ytx_pro_click_sent</code>, <code>ytx_waitlist_sent</code></td><td>Extension local storage</td><td>Left over from versions before 0.9.0: the time each Pro message was delivered (no longer used)</td></tr>
         <tr><td><code>ytx_feedback_log</code></td><td>Extension local storage</td><td>When problem reports were sent in the last 24 hours, used only for the limit in section 5</td></tr>
         <tr><td><code>ytx_ok_count</code>, <code>ytx_rate_done</code></td><td>Extension local storage</td><td>How many times an export or copy succeeded (counted up to 3), and whether you clicked "Rate it" or "Not now", so the one-line rating reminder is shown only once</td></tr>
       </tbody>
